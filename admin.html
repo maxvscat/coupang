@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>後台管理</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --panel:#ffffff;
+    --ink:#1a1a1a;
+    --muted:#767676;
+    --line:#e2e4e8;
+    --accent:#2563eb;
+    --danger:#dc2626;
+    --ok:#16a34a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+    font-size:14px;
+  }
+  header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:14px 24px;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+  }
+  header h1{ font-size:16px; margin:0; }
+  header .status{ color:var(--muted); font-size:13px; }
+  header .status.dirty{ color:#b45309; }
+  header .status.ok{ color:var(--ok); }
+  header .status.error{ color:var(--danger); }
+  header .actions{ display:flex; gap:8px; }
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    border-radius:7px;
+    padding:8px 14px;
+    font-size:13px;
+  }
+  button:hover{ border-color:var(--accent); }
+  button.primary{ background:var(--accent); border-color:var(--accent); color:#fff; }
+  button.primary:hover{ opacity:.9; }
+  button.danger{ color:var(--danger); border-color:#f3c8c4; }
+  button.danger:hover{ background:#fef2f2; }
+  button:disabled{ opacity:.5; cursor:not-allowed; }
+  button.icon{ padding:6px 9px; }
+
+  .site-meta{
+    max-width:1180px;
+    margin:20px auto 0;
+    padding:0 24px;
+    display:flex;
+    gap:12px;
+  }
+  .site-meta input{
+    flex:1;
+    padding:9px 12px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    font-size:13px;
+    font-family:inherit;
+  }
+
+  .layout{
+    max-width:1180px;
+    margin:16px auto 60px;
+    padding:0 24px;
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:20px;
+    align-items:start;
+  }
+
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px;
+  }
+
+  .page-list h2, .row-editor h2{
+    font-size:13px;
+    color:var(--muted);
+    margin:0 0 12px;
+    font-weight:600;
+  }
+  .page-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-bottom:6px;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .page-item:hover{ background:#f4f5f7; }
+  .page-item.active{ background:#eef2ff; border-color:#c7d5fb; }
+  .page-item input{
+    flex:1;
+    border:none;
+    background:transparent;
+    font-size:13px;
+    font-family:inherit;
+    color:var(--ink);
+    padding:2px 0;
+    min-width:0;
+  }
+  .page-item input:focus{ outline:none; border-bottom:1px solid var(--accent); }
+  .page-item .mini-btns{ display:flex; gap:2px; flex:none; }
+  .page-item .mini-btns button{
+    border:none;
+    background:transparent;
+    padding:3px 5px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .page-item .mini-btns button:hover{ color:var(--ink); }
+  .add-page-btn{ width:100%; margin-top:4px; }
+
+  .row-editor .row-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:14px;
+    background:#fdfdfd;
+  }
+  .row-card .row-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  }
+  .row-card .row-head .label{ font-size:12px; color:var(--muted); }
+  .type-toggle{ display:flex; gap:6px; margin-bottom:10px; }
+  .type-toggle button{ flex:1; padding:6px; font-size:12px; }
+  .type-toggle button.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  .field{ margin-bottom:10px; }
+  .field label{ display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+  .field input[type=text], .field input[type=url], .field textarea{
+    width:100%;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    font-size:13px;
+    font-family:inherit;
+    resize:vertical;
+  }
+  .field textarea{ min-height:64px; }
+
+  .media-row{ display:flex; gap:12px; align-items:flex-start; }
+  .media-preview{
+    flex:none;
+    width:140px;
+    height:90px;
+    border-radius:8px;
+    background:#eee;
+    border:1px solid var(--line);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-size:11px;
+    text-align:center;
+  }
+  .media-preview img{ width:100%; height:100%; object-fit:cover; }
+  .media-controls{ flex:1; min-width:0; }
+
+  .row-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid var(--line);
+  }
+  .row-foot .mini-btns{ display:flex; gap:4px; }
+  .row-foot .mini-btns button{ padding:5px 9px; font-size:12px; }
+
+  .add-row-btn{ width:100%; padding:12px; }
+
+  .empty-hint{ color:var(--muted); font-size:13px; padding:20px 0; text-align:center; }
+
+  @media (max-width: 860px){
+    .layout{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>後台管理（僅本機使用，不會出現在公開網站）</h1>
+  <div class="status" id="status">載入中…</div>
+  <div class="actions">
+    <button id="btn-reload">重新載入</button>
+    <button id="btn-save" class="primary">儲存全部變更</button>
+  </div>
+</header>
+
+<div class="site-meta">
+  <input type="text" id="site-title" placeholder="網站標題（顯示於首頁上方）">
+  <input type="text" id="site-subtitle" placeholder="副標題（選填）">
+</div>
+
+<div class="layout">
+  <div class="panel page-list">
+    <h2>頁面</h2>
+    <div id="page-list"></div>
+    <button class="add-page-btn" id="btn-add-page">＋ 新增頁面</button>
+  </div>
+
+  <div class="panel row-editor">
+    <h2 id="row-editor-title">內容列</h2>
+    <div id="row-list"></div>
+    <button class="add-row-btn" id="btn-add-row">＋ 新增一列</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var state = { siteTitle:'', siteSubtitle:'', pages:[], activePageId:null };
+  var dirty = false;
+  var API_DATA = '/api/data';
+  var API_UPLOAD = '/api/upload';
+
+  function genId(prefix){
+    return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+  }
+
+  function setStatus(text, kind){
+    var s = document.getElementById('status');
+    s.textContent = text;
+    s.className = 'status' + (kind ? ' ' + kind : '');
+  }
+
+  function markDirty(){
+    dirty = true;
+    setStatus('有未儲存的變更', 'dirty');
+  }
+
+  function extractYouTubeId(input){
+    var value = String(input || '').trim();
+    if (/^[-_A-Za-z0-9]{11}$/.test(value)) return value;
+    var patterns = [
+      /youtu\.be\/([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/watch\?[^#]*v=([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/embed\/([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/shorts\/([-_A-Za-z0-9]{11})/
+    ];
+    for (var i=0;i<patterns.length;i++){
+      var m = value.match(patterns[i]);
+      if (m) return m[1];
+    }
+    return '';
+  }
+
+  function activePage(){
+    return state.pages.find(function(p){ return p.id === state.activePageId; });
+  }
+
+  // ---------- render: page list ----------
+  function renderPageList(){
+    var box = document.getElementById('page-list');
+    box.innerHTML = '';
+    if (!state.pages.length){
+      box.appendChild(Object.assign(document.createElement('div'), { className:'empty-hint', textContent:'尚無頁面，請新增一個' }));
+    }
+    state.pages.forEach(function(page, index){
+      var item = document.createElement('div');
+      item.className = 'page-item' + (page.id === state.activePageId ? ' active' : '');
+
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = page.name;
+      input.placeholder = '頁面名稱';
+      input.addEventListener('click', function(e){ e.stopPropagation(); });
+      input.addEventListener('input', function(){ page.name = input.value; markDirty(); renderPageList(); });
+      item.appendChild(input);
+
+      var mini = document.createElement('div');
+      mini.className = 'mini-btns';
+
+      var up = document.createElement('button');
+      up.textContent = '↑';
+      up.title = '上移';
+      up.disabled = index === 0;
+      up.addEventListener('click', function(e){
+        e.stopPropagation();
+        var tmp = state.pages[index-1];
+        state.pages[index-1] = state.pages[index];
+        state.pages[index] = tmp;
+        markDirty(); renderPageList();
+      });
+      mini.appendChild(up);
+
+      var down = document.createElement('button');
+      down.textContent = '↓';
+      down.title = '下移';
+      down.disabled = index === state.pages.length - 1;
+      down.addEventListener('click', function(e){
+        e.stopPropagation();
+        var tmp = state.pages[index+1];
+        state.pages[index+1] = state.pages[index];
+        state.pages[index] = tmp;
+        markDirty(); renderPageList();
+      });
+      mini.appendChild(down);
+
+      var del = document.createElement('button');
+      del.textContent = '✕';
+      del.title = '刪除頁面';
+      del.addEventListener('click', function(e){
+        e.stopPropagation();
+        var ok = confirm('確定要刪除「' + (page.name || '未命名頁面') + '」嗎？此頁的所有內容都會一併刪除。');
+        if (!ok) return;
+        state.pages = state.pages.filter(function(p){ return p.id !== page.id; });
+        if (state.activePageId === page.id){
+          state.activePageId = state.pages.length ? state.pages[0].id : null;
+        }
+        markDirty(); renderPageList(); renderRowList();
+      });
+      mini.appendChild(del);
+
+      item.appendChild(mini);
+
+      item.addEventListener('click', function(){
+        state.activePageId = page.id;
+        renderPageList();
+        renderRowList();
+      });
+
+      box.appendChild(item);
+    });
+  }
+
+  // ---------- render: row list ----------
+  function renderRowList(){
+    var titleEl = document.getElementById('row-editor-title');
+    var list = document.getElementById('row-list');
+    list.innerHTML = '';
+    var page = activePage();
+
+    if (!page){
+      titleEl.textContent = '內容列';
+      list.appendChild(Object.assign(document.createElement('div'), { className:'empty-hint', textContent:'請先於左側新增或選擇一個頁面' }));
+      document.getElementById('btn-add-row').style.display = 'none';
+      return;
+    }
+    document.getElementById('btn-add-row').style.display = 'block';
+    titleEl.textContent = '內容列：' + (page.name || '未命名頁面');
+
+    if (!page.rows.length){
+      list.appendChild(Object.assign(document.createElement('div'), { className:'empty-hint', textContent:'此頁尚無內容，請新增一列' }));
+    }
+
+    page.rows.forEach(function(row, index){
+      list.appendChild(buildRowCard(row, index, page));
+    });
+  }
+
+  function buildRowCard(row, index, page){
+    var card = document.createElement('div');
+    card.className = 'row-card';
+
+    // head
+    var head = document.createElement('div');
+    head.className = 'row-head';
+    var label = document.createElement('span');
+    label.className = 'label';
+    label.textContent = '第 ' + (index + 1) + ' 列';
+    head.appendChild(label);
+    card.appendChild(head);
+
+    // type toggle
+    var toggle = document.createElement('div');
+    toggle.className = 'type-toggle';
+    var btnImg = document.createElement('button');
+    btnImg.textContent = '圖片';
+    btnImg.type = 'button';
+    var btnYt = document.createElement('button');
+    btnYt.textContent = 'YouTube 影片';
+    btnYt.type = 'button';
+    function refreshToggle(){
+      btnImg.className = row.type === 'image' ? 'active' : '';
+      btnYt.className = row.type === 'youtube' ? 'active' : '';
+    }
+    btnImg.addEventListener('click', function(){ row.type = 'image'; markDirty(); refreshToggle(); renderMedia(); });
+    btnYt.addEventListener('click', function(){ row.type = 'youtube'; markDirty(); refreshToggle(); renderMedia(); });
+    refreshToggle();
+    toggle.appendChild(btnImg);
+    toggle.appendChild(btnYt);
+    card.appendChild(toggle);
+
+    // media row (preview + controls), rebuilt when type changes
+    var mediaRow = document.createElement('div');
+    mediaRow.className = 'media-row';
+    card.appendChild(mediaRow);
+
+    function renderMedia(){
+      mediaRow.innerHTML = '';
+      var preview = document.createElement('div');
+      preview.className = 'media-preview';
+      var controls = document.createElement('div');
+      controls.className = 'media-controls';
+
+      if (row.type === 'youtube'){
+        var ytField = document.createElement('div');
+        ytField.className = 'field';
+        var ytLabel = document.createElement('label');
+        ytLabel.textContent = 'YouTube 網址或影片 ID';
+        var ytInput = document.createElement('input');
+        ytInput.type = 'text';
+        ytInput.value = row.youtubeUrl || '';
+        ytInput.placeholder = 'https://www.youtube.com/watch?v=...';
+        ytInput.addEventListener('input', function(){
+          row.youtubeUrl = ytInput.value;
+          markDirty();
+          updatePreview();
+        });
+        ytField.appendChild(ytLabel);
+        ytField.appendChild(ytInput);
+        controls.appendChild(ytField);
+
+        function updatePreview(){
+          var id = extractYouTubeId(row.youtubeUrl);
+          preview.innerHTML = '';
+          if (id){
+            var img = document.createElement('img');
+            img.src = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+            preview.appendChild(img);
+          } else {
+            preview.textContent = row.youtubeUrl ? '網址格式不正確' : '尚未輸入網址';
+          }
+        }
+        updatePreview();
+      } else {
+        var imgField = document.createElement('div');
+        imgField.className = 'field';
+        var imgLabel = document.createElement('label');
+        imgLabel.textContent = '上傳圖片';
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.addEventListener('change', function(){
+          var file = fileInput.files[0];
+          if (!file) return;
+          var reader = new FileReader();
+          reader.onload = function(){
+            preview.innerHTML = '上傳中…';
+            fetch(API_UPLOAD, {
+              method:'POST',
+              headers:{ 'Content-Type':'application/json' },
+              body: JSON.stringify({ filename:file.name, dataBase64: reader.result })
+            }).then(function(res){ return res.json(); })
+              .then(function(result){
+                if (!result.ok) throw new Error(result.error || '上傳失敗');
+                row.image = result.path;
+                markDirty();
+                updatePreview();
+              })
+              .catch(function(err){
+                alert('圖片上傳失敗：' + err.message);
+                updatePreview();
+              });
+          };
+          reader.readAsDataURL(file);
+        });
+        imgField.appendChild(imgLabel);
+        imgField.appendChild(fileInput);
+        controls.appendChild(imgField);
+
+        function updatePreview(){
+          preview.innerHTML = '';
+          if (row.image){
+            var img = document.createElement('img');
+            img.src = row.image + '?t=' + Date.now();
+            preview.appendChild(img);
+          } else {
+            preview.textContent = '尚未上傳圖片';
+          }
+        }
+        updatePreview();
+      }
+
+      mediaRow.appendChild(preview);
+      mediaRow.appendChild(controls);
+    }
+    renderMedia();
+
+    // description
+    var descField = document.createElement('div');
+    descField.className = 'field';
+    var descLabel = document.createElement('label');
+    descLabel.textContent = '文字說明';
+    var descArea = document.createElement('textarea');
+    descArea.value = row.description || '';
+    descArea.addEventListener('input', function(){ row.description = descArea.value; markDirty(); });
+    descField.appendChild(descLabel);
+    descField.appendChild(descArea);
+    card.appendChild(descField);
+
+    // download url
+    var dlField = document.createElement('div');
+    dlField.className = 'field';
+    var dlLabel = document.createElement('label');
+    dlLabel.textContent = '影片下載連結（Google 雲端硬碟連結，選填）';
+    var dlInput = document.createElement('input');
+    dlInput.type = 'text';
+    dlInput.value = row.downloadUrl || '';
+    dlInput.placeholder = 'https://drive.google.com/...';
+    dlInput.addEventListener('input', function(){ row.downloadUrl = dlInput.value; markDirty(); });
+    dlField.appendChild(dlLabel);
+    dlField.appendChild(dlInput);
+    card.appendChild(dlField);
+
+    // foot: reorder / delete
+    var foot = document.createElement('div');
+    foot.className = 'row-foot';
+    var mini = document.createElement('div');
+    mini.className = 'mini-btns';
+
+    var up = document.createElement('button');
+    up.textContent = '↑ 上移';
+    up.disabled = index === 0;
+    up.addEventListener('click', function(){
+      var tmp = page.rows[index-1];
+      page.rows[index-1] = page.rows[index];
+      page.rows[index] = tmp;
+      markDirty(); renderRowList();
+    });
+    mini.appendChild(up);
+
+    var down = document.createElement('button');
+    down.textContent = '↓ 下移';
+    down.disabled = index === page.rows.length - 1;
+    down.addEventListener('click', function(){
+      var tmp = page.rows[index+1];
+      page.rows[index+1] = page.rows[index];
+      page.rows[index] = tmp;
+      markDirty(); renderRowList();
+    });
+    mini.appendChild(down);
+    foot.appendChild(mini);
+
+    var del = document.createElement('button');
+    del.className = 'danger';
+    del.textContent = '刪除此列';
+    del.addEventListener('click', function(){
+      var ok = confirm('確定要刪除第 ' + (index+1) + ' 列嗎？');
+      if (!ok) return;
+      page.rows = page.rows.filter(function(r){ return r.id !== row.id; });
+      markDirty(); renderRowList();
+    });
+    foot.appendChild(del);
+
+    card.appendChild(foot);
+    return card;
+  }
+
+  // ---------- top-level actions ----------
+  document.getElementById('site-title').addEventListener('input', function(e){
+    state.siteTitle = e.target.value; markDirty();
+  });
+  document.getElementById('site-subtitle').addEventListener('input', function(e){
+    state.siteSubtitle = e.target.value; markDirty();
+  });
+
+  document.getElementById('btn-add-page').addEventListener('click', function(){
+    var page = { id: genId('page'), name: '新頁面', rows: [] };
+    state.pages.push(page);
+    state.activePageId = page.id;
+    markDirty(); renderPageList(); renderRowList();
+  });
+
+  document.getElementById('btn-add-row').addEventListener('click', function(){
+    var page = activePage();
+    if (!page) return;
+    page.rows.push({ id: genId('row'), type:'image', image:'', youtubeUrl:'', description:'', downloadUrl:'' });
+    markDirty(); renderRowList();
+  });
+
+  document.getElementById('btn-save').addEventListener('click', function(){
+    var btn = document.getElementById('btn-save');
+    btn.disabled = true;
+    setStatus('儲存中…');
+    fetch(API_DATA, {
+      method:'POST',
+      headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify(state)
+    }).then(function(res){ return res.json(); })
+      .then(function(result){
+        btn.disabled = false;
+        if (!result.ok) throw new Error(result.error || '儲存失敗');
+        dirty = false;
+        setStatus('已儲存（' + new Date().toLocaleTimeString('zh-TW') + '）', 'ok');
+      })
+      .catch(function(err){
+        btn.disabled = false;
+        setStatus('儲存失敗：' + err.message, 'error');
+      });
+  });
+
+  document.getElementById('btn-reload').addEventListener('click', function(){
+    if (dirty){
+      var ok = confirm('目前有未儲存的變更，重新載入將會遺失，確定要繼續嗎？');
+      if (!ok) return;
+    }
+    load();
+  });
+
+  window.addEventListener('beforeunload', function(e){
+    if (dirty){
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  function load(){
+    setStatus('載入中…');
+    fetch(API_DATA, { cache:'no-store' })
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        state.siteTitle = data.siteTitle || '';
+        state.siteSubtitle = data.siteSubtitle || '';
+        state.pages = data.pages || [];
+        state.activePageId = state.pages.length ? state.pages[0].id : null;
+        document.getElementById('site-title').value = state.siteTitle;
+        document.getElementById('site-subtitle').value = state.siteSubtitle;
+        dirty = false;
+        setStatus('已載入');
+        renderPageList();
+        renderRowList();
+      })
+      .catch(function(err){
+        setStatus('載入失敗：' + err.message, 'error');
+      });
+  }
+
+  load();
+})();
+</script>
+</body>
+</html>

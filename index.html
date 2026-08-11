@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品預覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#1a1a1a;
+    --muted:#767676;
+    --line:#e7e7e7;
+    --accent:#2563eb;
+    --card-bg:#fafafa;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    padding:32px 24px 20px;
+    border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:0.02em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:14px;
+  }
+  nav.page-tabs{
+    display:flex;
+    gap:8px;
+    padding:16px 24px;
+    overflow-x:auto;
+    border-bottom:1px solid var(--line);
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+  nav.page-tabs::-webkit-scrollbar{display:none;}
+  nav.page-tabs button{
+    flex:none;
+    padding:8px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  nav.page-tabs button:hover{border-color:var(--accent);}
+  nav.page-tabs button.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 24px 80px;
+  }
+  .empty{
+    text-align:center;
+    color:var(--muted);
+    padding:80px 20px;
+    font-size:14px;
+  }
+  .row-card{
+    display:flex;
+    gap:20px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .row-media{
+    flex:none;
+    width:220px;
+    height:140px;
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--card-bg);
+    position:relative;
+    cursor:pointer;
+    border:1px solid var(--line);
+  }
+  .row-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .row-media .play-badge{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .row-media .play-badge span{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .row-media .play-badge svg{width:18px;height:18px;fill:#fff;margin-left:2px;}
+  .row-media iframe{
+    width:100%;
+    height:100%;
+    border:0;
+    display:block;
+  }
+  .row-content{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:10px;
+  }
+  .row-desc{
+    font-size:15px;
+    line-height:1.7;
+    color:var(--ink);
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .row-desc:empty::before{
+    content:"（無說明文字）";
+    color:var(--muted);
+  }
+  .row-download{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    width:fit-content;
+    padding:8px 16px;
+    border-radius:8px;
+    background:var(--ink);
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:500;
+    transition:opacity .15s ease;
+  }
+  .row-download:hover{opacity:.8;}
+
+  /* lightbox */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,10,0.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+  }
+  .lightbox.active{display:flex;}
+  .lightbox-inner{
+    max-width:min(900px,100%);
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+  }
+  .lightbox-inner img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+  }
+  .lightbox-inner iframe{
+    width:100%;
+    height:100%;
+    border:0;
+  }
+  .lightbox-close{
+    position:fixed;
+    top:20px;
+    right:24px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,0.12);
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+    line-height:1;
+  }
+
+  @media (max-width:640px){
+    .row-card{flex-direction:column;}
+    .row-media{width:100%;height:auto;aspect-ratio:16/9;}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1 id="site-title">作品預覽</h1>
+    <p id="site-subtitle"></p>
+  </header>
+
+  <nav class="page-tabs" id="page-tabs"></nav>
+
+  <main id="main-content">
+    <div class="empty">載入中…</div>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner" id="lightbox-inner"></div>
+  </div>
+  <button class="lightbox-close" id="lightbox-close" style="display:none;">&times;</button>
+
+<script>
+(function(){
+  var state = { pages: [], activePageId: null };
+
+  function extractYouTubeId(input){
+    var value = String(input || '').trim();
+    if (/^[-_A-Za-z0-9]{11}$/.test(value)) return value;
+    var patterns = [
+      /youtu\.be\/([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/watch\?[^#]*v=([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/embed\/([-_A-Za-z0-9]{11})/,
+      /youtube\.com\/shorts\/([-_A-Za-z0-9]{11})/
+    ];
+    for (var i=0;i<patterns.length;i++){
+      var m = value.match(patterns[i]);
+      if (m) return m[1];
+    }
+    return '';
+  }
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function(key){
+      if (key === 'class') node.className = attrs[key];
+      else if (key === 'html') node.innerHTML = attrs[key];
+      else node.setAttribute(key, attrs[key]);
+    });
+    (children || []).forEach(function(child){
+      if (child) node.appendChild(child);
+    });
+    return node;
+  }
+
+  function renderTabs(){
+    var nav = document.getElementById('page-tabs');
+    nav.innerHTML = '';
+    if (!state.pages.length){
+      nav.style.display = 'none';
+      return;
+    }
+    nav.style.display = 'flex';
+    state.pages.forEach(function(page){
+      var btn = el('button', {}, []);
+      btn.textContent = page.name || '未命名頁面';
+      if (page.id === state.activePageId) btn.classList.add('active');
+      btn.addEventListener('click', function(){
+        state.activePageId = page.id;
+        renderTabs();
+        renderContent();
+      });
+      nav.appendChild(btn);
+    });
+  }
+
+  function openLightboxImage(src){
+    var inner = document.getElementById('lightbox-inner');
+    inner.innerHTML = '';
+    inner.appendChild(el('img', { src: src, alt: '' }));
+    document.getElementById('lightbox').classList.add('active');
+    document.getElementById('lightbox-close').style.display = 'flex';
+  }
+
+  function openLightboxVideo(youtubeId){
+    var inner = document.getElementById('lightbox-inner');
+    inner.innerHTML = '';
+    var iframe = el('iframe', {
+      src: 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0',
+      allow: 'autoplay; encrypted-media; picture-in-picture',
+      allowfullscreen: 'true'
+    });
+    inner.appendChild(iframe);
+    document.getElementById('lightbox').classList.add('active');
+    document.getElementById('lightbox-close').style.display = 'flex';
+  }
+
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('active');
+    document.getElementById('lightbox-inner').innerHTML = '';
+    document.getElementById('lightbox-close').style.display = 'none';
+  }
+
+  function buildRowMedia(row){
+    var media = el('div', { class:'row-media' }, []);
+    if (row.type === 'youtube' && extractYouTubeId(row.youtubeUrl)){
+      var ytId = extractYouTubeId(row.youtubeUrl);
+      var thumb = el('img', { src:'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg', alt:'' });
+      var badge = el('div', { class:'play-badge' }, [
+        el('span', {}, [])
+      ]);
+      badge.querySelector('span').innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+      media.appendChild(thumb);
+      media.appendChild(badge);
+      media.addEventListener('click', function(){ openLightboxVideo(ytId); });
+    } else if (row.type === 'image' && row.image){
+      var img = el('img', { src: row.image, alt:'' });
+      media.appendChild(img);
+      media.addEventListener('click', function(){ openLightboxImage(row.image); });
+    } else {
+      media.style.display = 'flex';
+      media.style.alignItems = 'center';
+      media.style.justifyContent = 'center';
+      media.style.color = '#bbb';
+      media.style.fontSize = '13px';
+      media.textContent = '尚未設定媒體';
+      media.style.cursor = 'default';
+    }
+    return media;
+  }
+
+  function buildRowCard(row){
+    var card = el('div', { class:'row-card' }, []);
+    card.appendChild(buildRowMedia(row));
+
+    var content = el('div', { class:'row-content' }, []);
+    var desc = el('div', { class:'row-desc' }, []);
+    desc.textContent = row.description || '';
+    content.appendChild(desc);
+
+    if (row.downloadUrl){
+      var link = el('a', { class:'row-download', href: row.downloadUrl, target:'_blank', rel:'noopener' }, []);
+      link.textContent = '下載影片';
+      content.appendChild(link);
+    }
+    card.appendChild(content);
+    return card;
+  }
+
+  function renderContent(){
+    var main = document.getElementById('main-content');
+    main.innerHTML = '';
+    var page = state.pages.find(function(p){ return p.id === state.activePageId; });
+    if (!page){
+      main.appendChild(el('div', { class:'empty', html:'目前尚無內容' }, []));
+      return;
+    }
+    if (!page.rows || !page.rows.length){
+      main.appendChild(el('div', { class:'empty', html:'此頁尚無內容' }, []));
+      return;
+    }
+    page.rows.forEach(function(row){
+      main.appendChild(buildRowCard(row));
+    });
+  }
+
+  function init(data){
+    state.pages = (data && data.pages) || [];
+    document.getElementById('site-title').textContent = (data && data.siteTitle) || '作品預覽';
+    document.getElementById('site-subtitle').textContent = (data && data.siteSubtitle) || '';
+    if (state.pages.length){
+      state.activePageId = state.pages[0].id;
+    }
+    renderTabs();
+    renderContent();
+  }
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if (e.target.id === 'lightbox') closeLightbox();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  fetch('data.json', { cache: 'no-store' })
+    .then(function(res){
+      if (!res.ok) throw new Error('無法載入 data.json');
+      return res.json();
+    })
+    .then(init)
+    .catch(function(err){
+      document.getElementById('main-content').innerHTML =
+        '<div class="empty">內容載入失敗，請確認 data.json 存在，並透過本機伺服器開啟本頁（不要直接雙擊開啟檔案）。<br>錯誤訊息：' + err.message + '</div>';
+    });
+})();
+</script>
+</body>
+</html>
