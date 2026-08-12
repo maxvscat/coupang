@@ -3,6 +3,20 @@
   "siteSubtitle": "酷澎",
   "pages": [
     {
+      "id": "page-msqn8ujc3amn29",
+      "name": "0814-修改的地方",
+      "rows": [
+        {
+          "id": "row-msqn9b73n26i6j",
+          "type": "image",
+          "image": "assets/uploads/img-msqo36fn7odfte.jpg",
+          "youtubeUrl": "",
+          "description": "+2sec",
+          "downloadUrl": "https://drive.google.com/file/d/13hExMXUN7BH996kpzPGg1yhq93qem5Kt/view?usp=drive_link"
+        }
+      ]
+    },
+    {
       "id": "page-mspijseeyj1ab2",
       "name": "0813",
       "rows": [
@@ -95,11 +109,51 @@
           "downloadUrl": "https://drive.google.com/file/d/1ayhihkVVZrhP2QO70hbl61cN5SXju2uA/view?usp=drive_link"
         },
         {
+          "id": "row-msqke8oizisf6j",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/x50P7UkAlFM",
+          "description": "後面會跳一下，可以剪掉",
+          "downloadUrl": "https://drive.google.com/file/d/1OiTLNW0BANvwy_VbBrfWiuZBGzAZ5CEj/view?usp=drive_link"
+        },
+        {
+          "id": "row-msqkgzl6gwu3yw",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/cbilRwExCmc",
+          "description": "",
+          "downloadUrl": "https://drive.google.com/file/d/1_3GA_5Vk9uZILlAyk0041AMPKCeAZ0l3/view?usp=drive_link"
+        },
+        {
+          "id": "row-msqn03glez3id2",
+          "type": "image",
+          "image": "",
+          "youtubeUrl": "",
+          "description": "風吹草動",
+          "downloadUrl": "https://drive.google.com/file/d/15xTONJrKDqmNBLwCbHFFZPig0K11pJFO/view?usp=drive_link"
+        },
+        {
           "id": "row-msq4x85sisam1k",
           "type": "youtube",
           "image": "",
           "youtubeUrl": "https://youtu.be/uHrfkoNc220",
           "description": "▪正門口：清晨早上7 點，女性消費者打開家門，驚喜地發現看見下訂的包裹已送達門口，開心的拿起包裹",
+          "downloadUrl": ""
+        },
+        {
+          "id": "row-msqmusr1a4j5kl",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "",
+          "description": "開心的拿起包裹-版本2（會zoom in一下）",
+          "downloadUrl": "https://drive.google.com/file/d/1QP9rmltmw-xh3yzDusci1tJ9xzgOf-qA/view?usp=drive_link"
+        },
+        {
+          "id": "row-msqn3n1hrg99i0",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "",
+          "description": "",
           "downloadUrl": ""
         }
       ]
