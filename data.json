@@ -3,28 +3,6 @@
   "siteSubtitle": "酷澎",
   "pages": [
     {
-      "id": "page-msp9a649sm64q3",
-      "name": "0812",
-      "rows": [
-        {
-          "id": "row-msp9ahzya670jr",
-          "type": "youtube",
-          "image": "",
-          "youtubeUrl": "https://youtu.be/b7c2LD6fOaM",
-          "description": "minimax h3",
-          "downloadUrl": "https://drive.google.com/file/d/1n1yGAi_ro7IU4uNpQAnK1VI_Oen4E4WM/view?usp=drive_link"
-        },
-        {
-          "id": "row-msp9b66h0bfig0",
-          "type": "youtube",
-          "image": "",
-          "youtubeUrl": "https://youtu.be/yW5re1UIcKo",
-          "description": "kling",
-          "downloadUrl": "https://drive.google.com/file/d/1gO3JKDgRmEl1P8WGUEVjBdssut0V0EoP/view?usp=drive_link"
-        }
-      ]
-    },
-    {
       "id": "page-mspijseeyj1ab2",
       "name": "0813",
       "rows": [
@@ -59,6 +37,60 @@
           "youtubeUrl": "https://youtu.be/MMY4B2ep3IQ",
           "description": "人物放下手機、關檯燈，畫面轉暗",
           "downloadUrl": "https://drive.google.com/file/d/1l6Rs7sIwsKKU07J2btDUTqPlLS8Xb0vm/view?usp=drive_link"
+        },
+        {
+          "id": "row-mspq5nz4qjc6ht",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/08L2fkyWhe4",
+          "description": "綠幕-minimax-效果最好",
+          "downloadUrl": "https://drive.google.com/file/d/1suRCgZFfxJh8RS5aAtdY0GLb4OnqoCH0/view?usp=drive_link"
+        },
+        {
+          "id": "row-mspq6i395i69d5",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/PUC7L8RqLyY",
+          "description": "綠幕-kling-備用1",
+          "downloadUrl": "https://drive.google.com/file/d/1S-98lKQ5UNVTFIRpfnB9kZg3M8Fm7Buw/view?usp=drive_link"
+        },
+        {
+          "id": "row-mspq6t5x6576ns",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/GovlmrQiqtU",
+          "description": "綠幕-kling-備用2",
+          "downloadUrl": "https://drive.google.com/file/d/1i0N7dSU9DAoux9t48HOfNQ0-gTfzGH9d/view?usp=drive_link"
+        },
+        {
+          "id": "row-mspq6zx7y05xvb",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/d2hzQuKAS7A",
+          "description": "綠幕-kling-備用3",
+          "downloadUrl": "https://drive.google.com/file/d/17xJS54883c8JDP_iYzkojh_klhASyitx/view?usp=drive_link"
+        }
+      ]
+    },
+    {
+      "id": "page-msp9a649sm64q3",
+      "name": "0812",
+      "rows": [
+        {
+          "id": "row-msp9ahzya670jr",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/b7c2LD6fOaM",
+          "description": "minimax h3",
+          "downloadUrl": "https://drive.google.com/file/d/1n1yGAi_ro7IU4uNpQAnK1VI_Oen4E4WM/view?usp=drive_link"
+        },
+        {
+          "id": "row-msp9b66h0bfig0",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/yW5re1UIcKo",
+          "description": "kling",
+          "downloadUrl": "https://drive.google.com/file/d/1gO3JKDgRmEl1P8WGUEVjBdssut0V0EoP/view?usp=drive_link"
         }
       ]
     }
