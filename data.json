@@ -69,6 +69,44 @@
           "youtubeUrl": "https://youtu.be/d2hzQuKAS7A",
           "description": "綠幕-kling-備用3",
           "downloadUrl": "https://drive.google.com/file/d/17xJS54883c8JDP_iYzkojh_klhASyitx/view?usp=drive_link"
+        },
+        {
+          "id": "row-mspwyuns215bxr",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/790Mo1BpfJU",
+          "description": "簽收文件",
+          "downloadUrl": "https://drive.google.com/file/d/1mDGvMw9hncPcmO3bqfX7LTvwVSJnfz31/view?usp=drive_link"
+        }
+      ]
+    },
+    {
+      "id": "page-mspw35jfei09al",
+      "name": "0813-管理員大叔",
+      "rows": [
+        {
+          "id": "row-mspw3qnnwiii2c",
+          "type": "image",
+          "image": "assets/uploads/img-mspwlqgl1gl82r.jpeg",
+          "youtubeUrl": "",
+          "description": "眼睛大一點",
+          "downloadUrl": ""
+        },
+        {
+          "id": "row-mspwk6tur8tytz",
+          "type": "image",
+          "image": "assets/uploads/img-mspwlusvjvctzo.jpeg",
+          "youtubeUrl": "",
+          "description": "眼睛小一點，我選這個",
+          "downloadUrl": ""
+        },
+        {
+          "id": "row-mspwmxgofetqz6",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/790Mo1BpfJU",
+          "description": "簽收文件",
+          "downloadUrl": "https://drive.google.com/file/d/1mDGvMw9hncPcmO3bqfX7LTvwVSJnfz31/view?usp=drive_link"
         }
       ]
     },
