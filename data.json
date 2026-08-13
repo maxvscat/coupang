@@ -21,6 +21,22 @@
           "youtubeUrl": "",
           "description": "2K mov檔",
           "downloadUrl": "https://drive.google.com/file/d/17u5SheLDHu2rWiq_8LAfyQAKLt0TokvQ/view?usp=drive_link"
+        },
+        {
+          "id": "row-msr1o5a2s9bjm9",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/dSKZGWlJSzM",
+          "description": "第一cut",
+          "downloadUrl": "https://drive.google.com/file/d/1K-bMzexlTGPV58nex6_1_dY_Yqyyz2ww/view?usp=drive_link"
+        },
+        {
+          "id": "row-msr1p29drds5lt",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/CuNnxhIMrrY",
+          "description": "最後一cut",
+          "downloadUrl": "https://drive.google.com/file/d/100k9qAH3ZFIYEP_78zpSuOHxBZYJSibc/view?usp=drive_link"
         }
       ]
     },
