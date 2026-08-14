@@ -3,6 +3,44 @@
   "siteSubtitle": "酷澎",
   "pages": [
     {
+      "id": "page-msthsux0l2bljd",
+      "name": "0815",
+      "rows": [
+        {
+          "id": "row-mstht76u4mnnus",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/fSgUl7jMje8",
+          "description": "人物風格+早上7點",
+          "downloadUrl": "https://drive.google.com/file/d/1qA4zdDG8gct08X7RUs9Zvw6PotSb7ifB/view?usp=drive_link"
+        },
+        {
+          "id": "row-msthwkq2xgcg8f",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/yRWaHMBhrvY",
+          "description": "點手機",
+          "downloadUrl": "https://drive.google.com/file/d/1wzdy-uU6NfxE_U43W2D3rO0YTdTr2ywI/view?usp=drive_link"
+        },
+        {
+          "id": "row-msthxojnkc59bj",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/BC4eGMnIGhE",
+          "description": "滑手機",
+          "downloadUrl": "https://drive.google.com/file/d/1WmCTEvit6vUipONASDC5-ndWbHnM0VP3/view?usp=drive_link"
+        },
+        {
+          "id": "row-msthy1lopvhfj7",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/rpqhH7zJgWE",
+          "description": "換背景",
+          "downloadUrl": "https://drive.google.com/file/d/1CugFxkKRbLyjBhwI0DNPTQA2NugMFGUP/view?usp=drive_link"
+        }
+      ]
+    },
+    {
       "id": "page-msqn8ujc3amn29",
       "name": "0814-修改的地方",
       "rows": [
