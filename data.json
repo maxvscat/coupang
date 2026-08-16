@@ -3,6 +3,52 @@
   "siteSubtitle": "酷澎",
   "pages": [
     {
+      "id": "page-msuyqgj8ali4ts",
+      "name": "0816",
+      "rows": [
+        {
+          "id": "row-msuyqyd8cx8hti",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/MnxJpa9JxsY",
+          "description": "修改人物會多走一步的動作",
+          "downloadUrl": "https://drive.google.com/file/d/1Ib67L0Ldk1StrwEVXEHwcLAXT2T4i59B/view?usp=drive_link"
+        },
+        {
+          "id": "row-msuys5bof4a0cz",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/iM6UuqwvvaY",
+          "description": "腳翹起來的角度小一點",
+          "downloadUrl": "https://drive.google.com/file/d/1LQKnvaB8qo8HmhSPXeEDoJICBGc9NEH9/view?usp=drive_link"
+        },
+        {
+          "id": "row-msv1qt2kan6bvs",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/2bY3Rge2gzI",
+          "description": "頓一下，腳再翹起來（不大好）",
+          "downloadUrl": "https://drive.google.com/file/d/1wwFrdPJyELRy7xHTMoqLda9l1O8qYne_/view?usp=drive_link"
+        },
+        {
+          "id": "row-msv1s3oqi52q67",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/-itsEUBSMBQ",
+          "description": "腳不翹了",
+          "downloadUrl": "https://drive.google.com/file/d/1UXoFko0nSbIYWrevstHA4lVemtm5pqJ5/view?usp=drive_link"
+        },
+        {
+          "id": "row-msv1vmj0a4qf32",
+          "type": "youtube",
+          "image": "",
+          "youtubeUrl": "https://youtu.be/ZYGsBSQv9KU",
+          "description": "管理員自然點（已給過檔，這邊再放一下）",
+          "downloadUrl": "https://drive.google.com/file/d/1DVmnkjNezeyxIHitilseapSPGYwqzyeQ/view?usp=drive_link"
+        }
+      ]
+    },
+    {
       "id": "page-msthsux0l2bljd",
       "name": "0815",
       "rows": [
